@@ -16,7 +16,7 @@ export default function AutoAlert(props: { subject: string, message: string }) {
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogAction onClick={() => setOpen(false)}>Xác nhận</AlertDialogAction>
+                        <AlertDialogAction className="cursor-pointer" onClick={() => setOpen(false)}>Xác nhận</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>

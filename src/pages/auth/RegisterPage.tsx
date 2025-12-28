@@ -19,6 +19,8 @@ import { toast } from "sonner"
 import type { ApiError } from "@/types/errorTypes"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ClubEnum } from "@/types/enums"
+import { ro } from "date-fns/locale"
+import { useNavigate, useRoutes } from "react-router"
 
 const registerSchema = z.object({
   name: z.string().min(2, {
@@ -55,6 +57,7 @@ export default function RegisterPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const CLUB_VALUES = Object.values(ClubEnum);
+  const navigate = useNavigate();
 
   const onSubmit = async (values: RegisterSchemaType) => {
     const res = await registerAccount({
@@ -218,7 +221,7 @@ export default function RegisterPage() {
                 Đăng ký
                 {isLoading && <Loader2 className="size-4 animate-spin" />}
               </Button>
-              <Button variant={"link"} className="cursor-pointer">Đã có tài khoản? Đăng nhập</Button>
+              <Button variant={"link"} onClick={() => navigate("/login")} className="cursor-pointer">Đã có tài khoản? Đăng nhập</Button>
             </form>
           </Form>
         </div>
