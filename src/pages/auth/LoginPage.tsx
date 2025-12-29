@@ -11,10 +11,8 @@ import { Button } from "@/components/ui/button"
 import {
     FormMessage,
 } from "@/components/ui/form"
-import { useRegisterMutation } from "@/services/auth"
 import { Eye, EyeOff, Loader2, LockIcon, MailIcon } from "lucide-react"
 import { toast } from "sonner"
-import { ClubEnum } from "@/types/enums"
 import { useNavigate, useRoutes } from "react-router"
 import type { LoginResponse } from "@/types/userTypes";
 
@@ -65,7 +63,7 @@ export default function LoginPage() {
 
     return (
         <>
-            <div className="w-dvw h-dvh flex justify-center items-right bg-linear-to-r from-zinc-600 to-zinc-400 ">
+            <div className="w-dvw h-dvh flex justify-center items-right bg-linear-to-r from-primary to-secondary ">
                 <div className="container flex justify-center items-center">
                     <div className="register-form max-w-2xl min-w-xs w-10/12 min-h-100 bg-white rounded-2xl shadow-2xl flex items-center flex-col justify-between p-8">
                         <div>

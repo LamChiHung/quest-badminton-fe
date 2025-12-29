@@ -5,12 +5,12 @@ import { useEffect, type JSX } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router";
 
-export const PrivateRoute = ({ children }: { children: JSX.Element}) => {
+export const PrivateRoute = ({ children }: { children: JSX.Element }) => {
   const isLoggedIn = useSelector((state: MeState) => state.isLogin);
   const token = localStorage.getItem("access_token");
 
   const shouldSkip = isLoggedIn;
-  const { data, isLoading, isError } = useGetMeQuery(undefined, {skip: shouldSkip});
+  const { data, isLoading, isError } = useGetMeQuery(undefined, { skip: shouldSkip });
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,11 +20,6 @@ export const PrivateRoute = ({ children }: { children: JSX.Element}) => {
   }, [data, isLoggedIn, dispatch]);
 
   if (isLoading && !isLoggedIn) return <div></div>;
-
-  if (isError && !isLoggedIn) {
-    localStorage.removeItem("access_token");
-    return <Navigate to="/login" replace />;
-  }
 
   if (!isLoggedIn && !token) return <Navigate to="/login" replace />;
 
