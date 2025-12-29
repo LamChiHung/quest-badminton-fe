@@ -1,16 +1,20 @@
 import counterReducer from '../features/counter/counterSlice'
+import meReducer from '../features/user/meSlice'
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
-import { authCommonApi } from '@/services/auth'
+import { authCommonApi, authPublicApi } from '@/services/auth'
 
 
 export const store = configureStore({
     reducer: {
         counter: counterReducer,
+        me: meReducer,
         [authCommonApi.reducerPath]: authCommonApi.reducer,
+        [authPublicApi.reducerPath]: authPublicApi.reducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware()
-        .concat(authCommonApi.middleware),
+        .concat(authCommonApi.middleware)
+        .concat(authPublicApi.middleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

@@ -9,7 +9,22 @@ export interface RegisterRequest {
     club: string
 }
 
+export interface LoginRequest {
+    email: string,
+    password: string,
+}
+
+export interface LoginResponse {
+    token: string,
+}
+
 export interface ConfirmRegisterRequest {
     token: string
+}
+
+export interface MeResponse {
+    name: string,
+    email: string,
+    roles: string
 }
 

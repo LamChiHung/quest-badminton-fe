@@ -2,6 +2,8 @@ import { BrowserRouter, Route, Routes } from 'react-router'
 import ConfirmRegister from './components/ui/AutoAlert'
 import LoginPage from './pages/auth/LoginPage'
 import RegisterPage from './pages/auth/RegisterPage'
+import HomePage from './pages/HomePage'
+import { PrivateRoute } from './routes/PrivateRoute'
 
 function App() {
 
@@ -10,6 +12,11 @@ function App() {
       <Routes>
         <Route path='/login' element={<LoginPage />}></Route>
         <Route path='/register' element={<RegisterPage />}></Route>
+        <Route path='/' element={
+          <PrivateRoute>
+            <HomePage />
+          </PrivateRoute>}>
+        </Route>
       </Routes>
     </BrowserRouter>
   )

@@ -78,7 +78,7 @@ export default function RegisterPage() {
             <p className="font-bold text-2xl text-primary mb-8">Đăng ký thành viên</p>
           </div>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4 flex flex-col justify-center">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex-1 space-y-4 flex flex-col justify-center">
               <FormField
                 control={form.control}
                 name="name"

@@ -1,4 +1,4 @@
-import type { ConfirmRegisterRequest, LoginResponse, RegisterRequest } from '@/types/userTypes'
+import type { ConfirmRegisterRequest, LoginRequest, LoginResponse, MeResponse, RegisterRequest } from '@/types/userTypes'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { baseQueryWithErrorHandler } from './config/baseQueryWithErrorHandler'
 
@@ -19,6 +19,13 @@ export const authCommonApi = createApi({
                 body,
             }),
         }),
+        login: builder.mutation<LoginResponse, LoginRequest>({
+            query: (body) => ({
+                url: AUTH_COMMON_PATH + '/login',
+                method: 'POST',
+                body,
+            }),
+        }),
         confirmRegister: builder.mutation<void, ConfirmRegisterRequest>({
             query: ({ token }) => ({
                 url: AUTH_COMMON_PATH + '/register/confirm',
@@ -29,10 +36,27 @@ export const authCommonApi = createApi({
     }),
 })
 
+const AUTH_PUBLIC_PATH = '/api/public/auth'
+export const authPublicApi = createApi({
+    reducerPath: 'authPublicApi',
+    baseQuery: baseQueryWithErrorHandler,
+    endpoints: (builder) => ({
+        getMe: builder.query<MeResponse, void>({
+            query: () => AUTH_PUBLIC_PATH + '/me',
+        }),
+    }),
+})
+
+
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 export const {
     useGetAuthWelcomeQuery,
     useRegisterMutation,
+    useLoginMutation,
     useConfirmRegisterMutation
 } = authCommonApi
+
+export const {
+    useGetMeQuery,
+} = authPublicApi
