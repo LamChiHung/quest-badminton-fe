@@ -6,11 +6,13 @@ import type { RootState } from "@/app/store";
 import { Navigate, Outlet } from "react-router";
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 
-export const PrivateRoute = () => {
+export const HostRoute = () => {
   const dispatch = useAppDispatch();
   const token = localStorage.getItem("access_token");
 
   const isLogin = useAppSelector((state: RootState) => state.me.isLogin);
+  const roles = useAppSelector((state: RootState) => state.me.roles);
+
   const { data, isLoading, isError } = useGetMeQuery(undefined);
 
   useEffect(() => {
@@ -38,8 +40,8 @@ export const PrivateRoute = () => {
     if (!data) {
       return <Navigate to="/login" replace />;
     }
-    if (data.roles === "ROLE_HOST") {
-      return <Navigate to="/host/tour-management" replace />;
+    if (data.roles === "ROLE_USER") {
+      return <Navigate to="/" replace />;
     }
   }
 

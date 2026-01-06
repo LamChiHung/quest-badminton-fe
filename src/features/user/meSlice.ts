@@ -5,26 +5,27 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 export interface MeState {
     name: string,
     email: string,
-    role: string,
+    roles: string,
     isLogin: boolean
 }
 
 const initialState: MeState = {
     name: '',
     email: '',
-    role: '',
+    roles: '',
     isLogin: false
 };
 
 export const meSlice = createSlice({
     name: 'me',
     initialState,
-    reducers: {  
+    reducers: {
         setMe: (state, action: PayloadAction<MeResponse>) => {
+            console.log(action);
             state = {
                 name: action.payload.name,
                 email: action.payload.email,
-                role: action.payload.roles,
+                roles: action.payload.roles,
                 isLogin: true
             } as MeState
         },
@@ -32,6 +33,6 @@ export const meSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const {setMe} = meSlice.actions
+export const { setMe } = meSlice.actions
 
 export default meSlice.reducer
