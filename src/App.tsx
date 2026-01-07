@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from 'react-router'
-import ConfirmRegister from './components/ui/AutoAlert'
 import LoginPage from './pages/auth/LoginPage'
 import RegisterPage from './pages/auth/RegisterPage'
 import HomePage from './pages/HomePage'
 import { PrivateRoute } from './routes/PrivateRoute'
 import { HostRoute } from './routes/HostRoute'
 import TourManagement from './pages/hosts/TourManagement'
+import HostLayout from './pages/layout/HostLayout'
 
 function App() {
 
@@ -20,7 +20,7 @@ function App() {
           <Route path='/' element={<HomePage />}></Route>
         </Route>
         <Route element={<HostRoute />}>
-          <Route path='/host/tour-management' element={<TourManagement />}></Route>
+            <Route path='/host/tour-management' element={<HostLayout><TourManagement /></HostLayout>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

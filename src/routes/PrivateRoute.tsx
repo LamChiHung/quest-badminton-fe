@@ -31,11 +31,13 @@ export const PrivateRoute = () => {
 
   // ❌ Token lỗi hoặc chưa login
   if (isError) {
+    localStorage.removeItem("access_token");
     return <Navigate to="/login" replace />;
   }
 
   if (!isLoading) {
     if (!data) {
+      localStorage.removeItem("access_token");
       return <Navigate to="/login" replace />;
     }
     if (data.roles === "ROLE_HOST") {

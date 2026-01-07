@@ -19,7 +19,8 @@ export const baseQueryWithErrorHandler: typeof baseQuery = async (args, api, ext
     if (result.error) {
         const err = result.error as ApiError
         if (err.status === 401) {
-            toast.error("Phiên đăng nhập hết hạn")
+            localStorage.removeItem("access_token")
+            toast.error(err.data.errorMessage)
             // api.dispatch(logout())
         } else {
             toast.error(err.data.errorMessage)
