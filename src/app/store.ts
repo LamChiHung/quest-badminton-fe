@@ -3,6 +3,7 @@ import meReducer from '../features/user/meSlice'
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { authCommonApi, authPublicApi } from '@/services/auth'
+import { tourPrivateApi } from '@/services/tour'
 
 
 export const store = configureStore({
@@ -11,10 +12,12 @@ export const store = configureStore({
         me: meReducer,
         [authCommonApi.reducerPath]: authCommonApi.reducer,
         [authPublicApi.reducerPath]: authPublicApi.reducer,
+        [tourPrivateApi.reducerPath]: tourPrivateApi.reducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware()
         .concat(authCommonApi.middleware)
-        .concat(authPublicApi.middleware),
+        .concat(authPublicApi.middleware)
+        .concat(tourPrivateApi.middleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

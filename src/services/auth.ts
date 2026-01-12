@@ -42,7 +42,12 @@ export const authPublicApi = createApi({
     baseQuery: baseQueryWithErrorHandler,
     endpoints: (builder) => ({
         getMe: builder.query<MeResponse, void>({
-            query: () => AUTH_PUBLIC_PATH + '/me',
+            query: () => {
+                return {
+                    url: AUTH_PUBLIC_PATH + '/me',
+                    method: 'GET',
+                }
+            },
         }),
     }),
 })

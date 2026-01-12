@@ -8,42 +8,14 @@ import { useAppDispatch, useAppSelector } from "@/app/hook";
 
 export const HostRoute = () => {
   const dispatch = useAppDispatch();
-  const token = localStorage.getItem("access_token");
-
   const isLogin = useAppSelector((state: RootState) => state.me.isLogin);
-  const roles = useAppSelector((state: RootState) => state.me.roles);
-
-  const { data, isLoading, isError } = useGetMeQuery(undefined);
+  const { data, isLoading, isError } = useGetMeQuery();
 
   useEffect(() => {
-    if (data && !isLogin) {
+    if (data) {
       dispatch(setMe(data));
     }
   }, [data, isLogin, dispatch]);
 
-  // ❌ Không có token
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
-
-  // ⏳ Đang verify token
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  // ❌ Token lỗi hoặc chưa login
-  if (isError) {
-    return <Navigate to="/login" replace />;
-  }
-
-  if (!isLoading) {
-    if (!data) {
-      return <Navigate to="/login" replace />;
-    }
-    if (data.roles === "ROLE_USER") {
-      return <Navigate to="/" replace />;
-    }
-  }
-
-  return <Outlet />
+  return isLoading ? <></> : (data?.roles === 'ROLE_HOST' ? <Outlet /> : <Navigate to="/" replace />);
 };

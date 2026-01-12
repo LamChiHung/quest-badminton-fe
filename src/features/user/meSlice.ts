@@ -21,18 +21,26 @@ export const meSlice = createSlice({
     initialState,
     reducers: {
         setMe: (state, action: PayloadAction<MeResponse>) => {
-            console.log(action);
             state = {
                 name: action.payload.name,
                 email: action.payload.email,
                 roles: action.payload.roles,
                 isLogin: true
             } as MeState
+            console.log(state);
         },
+        logout: (state) => {
+            state = {
+                name: "",
+                email: "",
+                roles: "",
+                isLogin: false
+            } as MeState
+        }
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { setMe } = meSlice.actions
+export const { setMe, logout } = meSlice.actions
 
 export default meSlice.reducer

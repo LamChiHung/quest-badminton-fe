@@ -14,7 +14,7 @@ import {
 import { Eye, EyeOff, Loader2, LockIcon, MailIcon } from "lucide-react"
 import { toast } from "sonner"
 import { useNavigate, useRoutes } from "react-router"
-import type { LoginResponse } from "@/types/userTypes";
+import { useAppDispatch } from "@/app/hook";
 
 const loginSchema = z.object({
     email: z.email({ message: "Hãy nhập email hợp lệ" }),
@@ -28,6 +28,7 @@ export default function LoginPage() {
     const token = searchParams.get("token");
     const [confirmRegister, { isLoading: isConfirmRegisterLoading }] = useConfirmRegisterMutation();
     const [isConfirmRegister, setIsConfirmRegister] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (!token) return;
@@ -44,28 +45,33 @@ export default function LoginPage() {
         }
     })
 
-    const [loginAccount, { isLoading, isSuccess, error, data }] = useLoginMutation()
+    const [loginAccount, { }] = useLoginMutation()
     const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
     const onSubmit = async (values: LoginSchemaType) => {
+        setIsLoading(true);
         await loginAccount({
             email: values.email,
             password: values.password,
         }).unwrap()
             .then(res => {
                 localStorage.setItem("access_token", res.token);
+                console.log(`local 1: ${localStorage.getItem("access_token")}`);
                 toast.success("Đăng nhập thành công!")
-                navigate("/");
-            })
+            });
+        setTimeout(() => {
+            navigate("/");
+        }, 1000);
     }
 
     return (
         <>
             <div className="w-dvw h-dvh flex justify-center items-right bg-linear-to-r from-primary to-secondary ">
                 <div className="container flex justify-center items-center">
-                    <div className="register-form max-w-2xl min-w-xs w-10/12 min-h-100 bg-white rounded-2xl shadow-2xl flex items-center flex-col justify-between p-8">
+                    <div className="login-form max-w-md min-w-xs w-10/12 min-h-100 bg-white rounded-2xl shadow-2xl flex items-center flex-col justify-between p-8">
                         <div>
                             <p className="font-bold text-2xl text-primary mb-8">Đăng nhập</p>
                         </div>

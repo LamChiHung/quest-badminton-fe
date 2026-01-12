@@ -38,11 +38,17 @@ function PaginationItem({ ...props }: React.ComponentProps<"li">) {
 }
 
 type PaginationLinkProps = {
+  setData: React.Dispatch<React.SetStateAction<any>>,
+  data: any,
+  value: number,
   isActive?: boolean
 } & Pick<React.ComponentProps<typeof Button>, "size"> &
   React.ComponentProps<"a">
 
 function PaginationLink({
+  data,
+  setData,
+  value,
   className,
   isActive,
   size = "icon",
@@ -61,16 +67,29 @@ function PaginationLink({
         className
       )}
       {...props}
+
+      onClick={(e) => {
+        console.log("Click");
+
+        e.preventDefault();
+        setData({ ...data, page: value });
+      }}
     />
   )
 }
 
 function PaginationPrevious({
+  data,
+  setData,
+  value,
   className,
   ...props
 }: React.ComponentProps<typeof PaginationLink>) {
   return (
     <PaginationLink
+      data={data}
+      setData={setData}
+      value={value}
       aria-label="Go to previous page"
       size="default"
       className={cn("gap-1 px-2.5 sm:pl-2.5", className)}
@@ -83,11 +102,17 @@ function PaginationPrevious({
 }
 
 function PaginationNext({
+  data,
+  value,
+  setData,
   className,
   ...props
 }: React.ComponentProps<typeof PaginationLink>) {
   return (
     <PaginationLink
+      data={data}
+      value={value}
+      setData={setData}
       aria-label="Go to next page"
       size="default"
       className={cn("gap-1 px-2.5 sm:pr-2.5", className)}

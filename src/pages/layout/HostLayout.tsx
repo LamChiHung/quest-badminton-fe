@@ -8,7 +8,6 @@ export default function HostLayout({ children }: { children: React.ReactNode }) 
     const [now, setNow] = useState(new Date())
     const location = useLocation()
     const headerName = capitalizeWords(location?.pathname?.replaceAll("/host/", "").replaceAll("-", " "))
-    console.log(headerName)
     useEffect(() => {
         const timer = setInterval(() => {
             setNow(new Date())
