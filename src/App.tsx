@@ -6,6 +6,7 @@ import { HostRoute } from './routes/HostRoute'
 import TourManagement from './pages/hosts/TourManagement'
 import HostLayout from './pages/layout/HostLayout'
 import TourPage from './pages/players/TourPage'
+import PlayerLayout from './pages/layout/PlayerLayout'
 
 function App() {
 
@@ -17,10 +18,12 @@ function App() {
 
 
         <Route element={<PrivateRoute />}>
-          <Route path='/' element={<TourPage />}></Route>
+          <Route element={<PlayerLayout />}>
+            <Route path='/' element={<TourPage />}></Route>
+          </Route>
         </Route>
         <Route element={<HostRoute />}>
-            <Route path='/host/tour-management' element={<HostLayout><TourManagement /></HostLayout>}></Route>
+          <Route path='/host/tour-management' element={<HostLayout><TourManagement /></HostLayout>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

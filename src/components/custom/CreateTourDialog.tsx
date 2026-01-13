@@ -106,7 +106,7 @@ export default function CreateTourDialog() {
         <div className="flex">
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                    <Button variant="default"> <Plus />Thêm giải đấu</Button>
+                    <Button variant="default" className="cursor-pointer"> <Plus />Thêm giải đấu</Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <Form {...form}>

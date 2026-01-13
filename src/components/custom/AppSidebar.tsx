@@ -12,28 +12,29 @@ import {
 } from "@/components/ui/sidebar"
 import { NavLink } from "react-router"
 
-// Menu items.
-const items = [
-  {
-    title: "Tour Management",
-    url: "/host/tour-management",
-    icon: Trophy,
-  },
-]
 
-export function AppSidebar() {
+interface AppSidebarProps {
+  items: {
+    title: string
+    url: string
+    icon: React.ReactNode
+  }[]
+}
+
+export function AppSidebar({ items }: AppSidebarProps) {
+  const path = window.location.pathname;
   return (
-    <Sidebar>
+    <Sidebar >
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel className="font-bold">Menu</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                <SidebarMenuItem key={item.title} className={`font-bold cursor-pointer ${path === item.url ? "border-b-primary border-b-2" : ""}`}>
+                  <SidebarMenuButton asChild className="hover:bg-secondary">
                     <NavLink to={item.url}>
-                      <item.icon />
+                      <span>{item.icon}</span>
                       <span>{item.title}</span>
                     </NavLink>
                   </SidebarMenuButton>

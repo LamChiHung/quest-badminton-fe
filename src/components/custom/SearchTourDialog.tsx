@@ -107,7 +107,7 @@ export default function SearchTourDialog({ setParams }: SearchTourProps) {
         <div className="flex">
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                    <Button variant="secondary"><Search />Tìm giải đấu</Button>
+                    <Button variant="secondary" className="cursor-pointer"><Search />Tìm giải đấu</Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <Form {...form}>

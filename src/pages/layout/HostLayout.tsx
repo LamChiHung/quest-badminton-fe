@@ -1,6 +1,7 @@
 import { AppSidebar } from "@/components/custom/AppSidebar"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { capitalizeWords } from "@/utils/StringUtil"
+import { Trophy } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router"
 
@@ -15,12 +16,18 @@ export default function HostLayout({ children }: { children: React.ReactNode }) 
 
         return () => clearInterval(timer)
     }, [])
-
+    const items = [
+        {
+            title: "Tour Management",
+            url: "/host/tour-management",
+            icon: <Trophy />,
+        },
+    ]
 
     return (
         <SidebarProvider>
             <div className="flex h-screen w-full overflow-hidden">
-                <AppSidebar />
+                <AppSidebar items={items} />
 
                 <div className="flex flex-1 flex-col">
                     <header className="flex h-14 items-center gap-4 border-b px-4 justify-between">

@@ -33,6 +33,26 @@ export const tourPrivateApi = createApi({
     }),
 })
 
+const TOUR_PUBLIC_PATH = '/api/public/tours'
+export const tourPublicApi = createApi({
+    reducerPath: 'tourPublicApi',
+    baseQuery: baseQueryWithErrorHandler,
+    tagTypes: ["Tours"],
+    endpoints: (builder) => ({
+        getPublicTours: builder.query<PageResponse<TourResponse>, SearchTourRequest | void>({
+            query: (params) => ({
+                url: `${TOUR_PUBLIC_PATH}`,
+                method: 'GET',
+                params: params ?? undefined
+            }),
+            providesTags: ["Tours"],
+            forceRefetch({ currentArg, previousArg }) {
+                return currentArg !== previousArg
+            },
+        })
+    }),
+})
+
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
@@ -40,3 +60,7 @@ export const {
     useGetToursQuery,
     useCreateTourMutation,
 } = tourPrivateApi
+
+export const {
+    useGetPublicToursQuery,
+} = tourPublicApi

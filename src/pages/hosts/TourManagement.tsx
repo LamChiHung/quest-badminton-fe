@@ -13,8 +13,15 @@ import { current } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
 
 export default function TourManagement() {
-    const [tours, setTours] = useState<PageResponse<TourResponse>>([]);
+
     const [searchTour, setSearchTour] = useState<SearchTourRequest>({});
+    const [tours, setTours] = useState<PageResponse<TourResponse>>({
+        number: 0,
+        totalPages: 0,
+        content: [],
+        totalElements: 0,
+        size: 0
+    });
     const { data, isLoading, isError } = useGetToursQuery(searchTour);
     const STATUS_ENTRIES = Object.entries(TourStatusEnum).map(
         ([key, value]) => ({
@@ -68,7 +75,7 @@ export default function TourManagement() {
                 })}
             </div>
             <div>
-                {isLoading ? <></> : <PaginationSetState props={{ currentPage: tours.number, totalPage: tours.totalPages, data: searchTour, setData: setSearchTour }} />}
+                {isLoading ? <></> : <PaginationSetState props={{ currentPage: tours?.number, totalPage: tours?.totalPages, data: searchTour, setData: setSearchTour }} />}
             </div>
         </div>
     )

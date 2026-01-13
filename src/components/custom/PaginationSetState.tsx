@@ -7,6 +7,7 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination"
+import { useEffect } from "react"
 
 interface PaginationSetStateProps {
     currentPage: number,
