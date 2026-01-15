@@ -1,5 +1,6 @@
 import InfoCard from "@/components/custom/InforCard";
 import PaginationSetState from "@/components/custom/PaginationSetState";
+import TourCard from "@/components/custom/TourCard";
 import { useGetPublicToursQuery } from "@/services/tour";
 import type { PageResponse } from "@/types/commonTypes";
 import { TourMatchTypeEnum, TourStatusEnum, TourTypeEnum } from "@/types/enums";
@@ -24,27 +25,20 @@ export default function TourPage() {
     }, [data]);
     return (
         <div className="w-dvw flex justify-center">
-            <div className="container flex flex-col bg-amber-200">
+            <div className="container flex flex-col">
                 <div>
                     Search bar
                 </div>
                 <div>
-                    <div className="flex py-2 md:space-x-4 space-y-4 flex-wrap md:justify-start justify-center">
+                    <div className="grid grid-cols-[repeat(auto-fit,minmax(385px,1fr))] gap-4 py-2 space-y-4 place-items-center">
                         {tours?.content?.map(tour => {
 
                             const statusKey = tour.status as keyof typeof TourStatusEnum;
-                            const statusClassMap: Record<string, string> = {
-                                UPCOMING: "border-yellow-300",
-                                LIVE: "border-green-500",
-                                END: "border-gray-400",
-                                CANCEL: "border-red-500",
-                            };
                             const tourTypeKey = tour.type as keyof typeof TourTypeEnum;
                             const tourMatchTypeKey = tour.matchType as keyof typeof TourMatchTypeEnum;
 
 
                             const tourMap = new Map<string, string>()
-                            tourMap.set("Tên giải đấu", tour.name)
                             tourMap.set("Mã code", tour.code)
                             tourMap.set("Trạng thái", TourStatusEnum[statusKey])
                             tourMap.set("Loại", TourTypeEnum[tourTypeKey])
@@ -54,7 +48,7 @@ export default function TourPage() {
                             console.log(tour.status);
                             console.log(TourStatusEnum.UPCOMING);
 
-                            return <InfoCard key={tour.id} haveDetail={true} info={tourMap} title={tour.name} className={`${statusClassMap[statusKey]} cursor-pointer hover:bg-neutral-100`} />
+                            return <TourCard key={tour.id} tour={tour} className={`cursor-pointer hover:bg-neutral-100 col-span-1`} />
                         })}
                     </div>
                     <div>

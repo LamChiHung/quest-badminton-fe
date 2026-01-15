@@ -13,25 +13,30 @@ export interface TourRequest {
     locationUrl: string
     ruleUrl: string
     isPrivate: boolean
+    backgroundUrl?: string,
+    avatarUrl?: string
 }
 
 export interface TourResponse {
     id: number
     name: string
     code: string
-    status: TourStatusEnum
+    status: string
     malePlayers: number
     malePlayerRegistered: number
     femalePlayers: number
     femalePlayerRegistered: number
     type: TourTypeEnum
-    matchType: TourMatchTypeEnum
+    matchType: string
     startDate: string
     registrationEndDate: string
     location: string
     locationUrl: string
     ruleUrl: string
     pendingApprovePlayers: number
+    backgroundUrl: string,
+    avatarUrl: string
+    isAvailableToRegister: boolean
 }
 
 export interface SearchTourRequest {

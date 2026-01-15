@@ -21,7 +21,7 @@ export default function PlayerLayout() {
 
     return (
         <>
-            <div className="w-dvw h-15 bg-primary flex items-center md:px-10 px-2 justify-between fixed top-0 left-0">
+            <div className="w-dvw h-14 bg-primary flex items-center md:px-10 px-2 justify-between fixed top-0 left-0 z-10">
                 <img src="/images/quest-logo-big.jpg" alt="logo" className="w-10 rounded-full md:flex hidden"></img>
                 <div className="text-primary-foreground flex md:hidden">
                     <LeftSideMenu items={menu} />
@@ -51,7 +51,7 @@ export default function PlayerLayout() {
                     </div>
                 </div>
             </div>
-            <div className="w-dvw h-15 bg-primary flex items-center md:px-10 px-2 justify-between">
+            <div className="w-dvw h-14 bg-primary flex items-center md:px-10 px-2 justify-between">
             </div>
             <Outlet />
         </>
