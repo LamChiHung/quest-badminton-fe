@@ -7,6 +7,7 @@ import TourManagement from './pages/hosts/TourManagement'
 import HostLayout from './pages/layout/HostLayout'
 import TourPage from './pages/players/TourPage'
 import PlayerLayout from './pages/layout/PlayerLayout'
+import TourDetailHost from './pages/hosts/TourDetailHost'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         </Route>
         <Route element={<HostRoute />}>
           <Route path='/host/tour-management' element={<HostLayout><TourManagement /></HostLayout>}></Route>
+          <Route path='/host/tour-management/:tourId' element={<HostLayout><TourDetailHost/></HostLayout>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

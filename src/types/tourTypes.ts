@@ -53,3 +53,10 @@ export interface SearchTourRequest {
     "page"?: number,
     "size"?: number
 }
+
+
+export interface RegisterPlayerRequest {
+    tourId: number
+    tier: string
+    gender: string
+}

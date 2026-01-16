@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { baseQueryWithErrorHandler } from './config/baseQueryWithErrorHandler'
-import type { TourRequest, TourResponse, SearchTourRequest } from '@/types/tourTypes'
+import type { TourRequest, TourResponse, SearchTourRequest, RegisterPlayerRequest } from '@/types/tourTypes'
 import type { PageResponse } from '@/types/commonTypes'
 
 // Define a service using a base URL and expected endpoints
@@ -9,7 +9,7 @@ const TOUR_PRIVATE_PATH = '/api/private/tours'
 export const tourPrivateApi = createApi({
     reducerPath: 'tourPrivateApi',
     baseQuery: baseQueryWithErrorHandler,
-    tagTypes: ["Tours"],
+    tagTypes: ["Tour","Tours"],
     endpoints: (builder) => ({
         getTours: builder.query<PageResponse<TourResponse>, SearchTourRequest | void>({
             query: (params) => ({
@@ -18,6 +18,16 @@ export const tourPrivateApi = createApi({
                 params: params ?? undefined
             }),
             providesTags: ["Tours"],
+            forceRefetch({ currentArg, previousArg }) {
+                return currentArg !== previousArg
+            },
+        }),
+         getTourDetail: builder.query<TourResponse, number>({
+            query: (id) => ({
+                url: `${TOUR_PRIVATE_PATH}/${id}`,
+                method: 'GET',
+            }),
+            providesTags: ["Tour"],
             forceRefetch({ currentArg, previousArg }) {
                 return currentArg !== previousArg
             },
@@ -49,6 +59,13 @@ export const tourPublicApi = createApi({
             forceRefetch({ currentArg, previousArg }) {
                 return currentArg !== previousArg
             },
+        }),
+        registerPlayer: builder.mutation<void, RegisterPlayerRequest>({
+            query: (body) => ({
+                url: `${TOUR_PUBLIC_PATH}/register/players`,
+                method: 'POST',
+                body,
+            }),
         })
     }),
 })
@@ -58,9 +75,11 @@ export const tourPublicApi = createApi({
 // auto-generated based on the defined endpoints
 export const {
     useGetToursQuery,
+    useGetTourDetailQuery,
     useCreateTourMutation,
 } = tourPrivateApi
 
 export const {
     useGetPublicToursQuery,
+    useRegisterPlayerMutation,
 } = tourPublicApi

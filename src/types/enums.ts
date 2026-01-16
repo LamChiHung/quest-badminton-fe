@@ -28,3 +28,21 @@ export const TourStatusEnum = {
 } as const
 
 export type TourStatusEnum = typeof TourStatusEnum[keyof typeof TourStatusEnum]
+
+
+export const PlayerTierEnum = {
+    Y: "Yếu",
+    TBT: "Trung Bình -",
+    TB: "Trung Bình",
+    TBC: "Trung Bình +",
+    TBCC: "Trung Bình ++",
+    K: "Khá"
+}
+export type PlayerTierEnum = typeof PlayerTierEnum[keyof typeof PlayerTierEnum]
+
+
+export const GenderEnum = {
+    MALE: "Nam",
+    FEMALE: "Nữ"
+}
+export type GenderEnum = typeof GenderEnum[keyof typeof GenderEnum]

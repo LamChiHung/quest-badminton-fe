@@ -3,6 +3,7 @@ import DashboardCard from "@/components/custom/DashboardCard";
 import InfoCard from "@/components/custom/InforCard";
 import PaginationSetState from "@/components/custom/PaginationSetState";
 import SearchTourDialog from "@/components/custom/SearchTourDialog";
+import TourCard from "@/components/custom/TourCard";
 import { Button } from "@/components/ui/button";
 import { useGetToursQuery } from "@/services/tour";
 import type { PageResponse } from "@/types/commonTypes";
@@ -11,6 +12,7 @@ import type { SearchTourRequest, TourResponse } from "@/types/tourTypes";
 import { formatDate } from "@/utils/StringUtil";
 import { current } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function TourManagement() {
 
@@ -29,6 +31,7 @@ export default function TourManagement() {
             value,
         })
     );
+    const navigator = useNavigate();
     useEffect(() => {
         if (data) {
             setTours(data);
@@ -46,32 +49,9 @@ export default function TourManagement() {
                 <CreateTourDialog />
                 <SearchTourDialog setParams={setSearchTour} />
             </div>
-            <div className="flex py-2 md:space-x-4 space-y-4 flex-wrap md:justify-start justify-center">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(385px,1fr))] gap-4 py-2 space-y-4 place-items-center">
                 {tours?.content?.map(tour => {
-
-                    const statusKey = tour.status as keyof typeof TourStatusEnum;
-                    const statusClassMap: Record<string, string> = {
-                        UPCOMING: "border-yellow-300",
-                        LIVE: "border-green-500",
-                        END: "border-gray-400",
-                        CANCEL: "border-red-500",
-                    };
-                    const tourTypeKey = tour.type as keyof typeof TourTypeEnum;
-                    const tourMatchTypeKey = tour.matchType as keyof typeof TourMatchTypeEnum;
-
-
-                    const tourMap = new Map<string, string>()
-                    tourMap.set("Tên giải đấu", tour.name)
-                    tourMap.set("Mã code", tour.code)
-                    tourMap.set("Trạng thái", TourStatusEnum[statusKey])
-                    tourMap.set("Loại", TourTypeEnum[tourTypeKey])
-                    tourMap.set("Loại trận", TourMatchTypeEnum[tourMatchTypeKey])
-                    tourMap.set("Ngày kết thúc đăng ký", formatDate(tour.registrationEndDate))
-                    tourMap.set("Ngày bắt đầu giải đấu", formatDate(tour.startDate))
-                    console.log(tour.status);
-                    console.log(TourStatusEnum.UPCOMING);
-
-                    return <InfoCard key={tour.id} haveDetail={true} info={tourMap} title={tour.name} className={`${statusClassMap[statusKey]} cursor-pointer hover:bg-neutral-100`} />
+                    return <TourCard key={tour.id} tour={tour} isAdmin={true} className={`cursor-pointer hover:bg-neutral-100 col-span-1`} />
                 })}
             </div>
             <div>

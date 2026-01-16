@@ -10,10 +10,12 @@ import {
 import { TourMatchTypeEnum, TourStatusEnum, TourTypeEnum } from "@/types/enums"
 import type { TourResponse } from "@/types/tourTypes"
 import { formatDate } from "@/utils/StringUtil"
-import { ArrowRightIcon, Divide, Mars, StarIcon, User, Venus } from "lucide-react"
+import { ArrowRightIcon, Calendar, CalendarCheck, CalendarClock, Divide, MapPin, Mars, NotebookPen, StarIcon, Trophy, User, Venus } from "lucide-react"
+import RegisterPlayerDialog from "./RegisterPlayerDialog"
+import { useNavigate } from "react-router"
 
 
-export default function TourCard({ tour, className }: { tour: TourResponse, className?: string }) {
+export default function TourCard({ tour, className, isAdmin = false, url = "#" }: { tour: TourResponse, className?: string, isAdmin?: boolean, url?: string }) {
 
     const content = [{
         title: "Loại giải đấu",
@@ -34,6 +36,8 @@ export default function TourCard({ tour, className }: { tour: TourResponse, clas
     },
     ];
 
+    const navigator = useNavigate();
+
     const statusColorMap: Record<string, string> = {
         UPCOMING: "border-blue-400 text-white bg-blue-400",
         LIVE: "border-green-400 text-white bg-green-400",
@@ -42,7 +46,7 @@ export default function TourCard({ tour, className }: { tour: TourResponse, clas
     };
 
     return (
-        <Card className={`w-96 h-96 p-0 ${className} shadow-2xl hover:border-2 hover:border-primary`}>
+        <Card onClick={() => navigator(`/host/tour-management/${tour.id}`)} className={`w-96 h-[450px] p-0 ${className} shadow-2xl hover:border-2 hover:border-primary`}>
             <div className="rounded-t-md w-full h-2/5 relative">
                 <div className="flex items-center justify-center h-full">
                     <img className="rounded-t-md w-full h-full object-cover" src={tour.backgroundUrl ? tour.backgroundUrl : `/images/badminton-bg-colorful.jpg`} alt="banner-img" />
@@ -61,7 +65,7 @@ export default function TourCard({ tour, className }: { tour: TourResponse, clas
             </div>
             <CardContent className="px-4 py-2 flex flex-col justify-between h-full">
                 <div className="flex justify-center h-fit">
-                    <CardTitle className="mb-1 font-bold text-primary">{tour.name}</CardTitle>
+                    <CardTitle className="mb-4 font-bold text-primary text-2xl">{tour.name}</CardTitle>
                 </div>
                 <div className="flex flex-col justify-between h-full">
                     {content.map((item, index) => (
@@ -87,9 +91,7 @@ export default function TourCard({ tour, className }: { tour: TourResponse, clas
                     <CardDescription>
                         <span className="underline italic">Bấm để xem chi tiết</span>
                     </CardDescription>
-                    {tour.isAvailableToRegister && <Button className="cursor-pointer hover:opacity-80">
-                        Đăng ký
-                    </Button>}
+                    {tour.isAvailableToRegister && !isAdmin && <RegisterPlayerDialog id={tour.id} />}
                 </CardFooter>
             </CardContent>
         </Card>

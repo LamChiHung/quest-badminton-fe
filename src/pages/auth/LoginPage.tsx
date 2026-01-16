@@ -61,7 +61,8 @@ export default function LoginPage() {
                 localStorage.setItem("access_token", res.token);
                 console.log(`local 1: ${localStorage.getItem("access_token")}`);
                 toast.success("Đăng nhập thành công!")
-            });
+            })
+            .finally(() => setIsLoading(false));
         setTimeout(() => {
             navigate("/");
         }, 1000);
