@@ -37,6 +37,7 @@ export interface TourResponse {
     backgroundUrl: string,
     avatarUrl: string
     isAvailableToRegister: boolean
+    isPrivate: boolean
 }
 
 export interface SearchTourRequest {
@@ -59,4 +60,30 @@ export interface RegisterPlayerRequest {
     tourId: number
     tier: string
     gender: string
+}
+
+export interface PlayerResponse {
+    id: number
+    userId: number
+    name: string
+    email: string
+    club: string
+    tourId: number
+    teamId: number
+    tier: string
+    status: string
+    gender: string
+    note: string
+}
+
+export interface SearchPlayerRequest {
+    "tourId.equals"?: number,
+    "email.contains"?: string,
+    "name.contains"?: string,
+    "teamId.in"?: number,
+    "tier.in"?: string[],
+    "gender.in"?: string[],
+    "status.in"?: string[],
+    "page"?: number,
+    "size"?: number
 }

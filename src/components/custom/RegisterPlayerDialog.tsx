@@ -62,8 +62,12 @@ export default function RegisterPlayerDialog({ id }: RegisterPlayerDialogProps) 
             })
     }
 
+    const clickDialog = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        e.stopPropagation();
+    }
+
     return (
-        <div className="flex">
+        <div onClick={(e) => clickDialog(e)} className="flex">
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
                     <Button variant="default" className="cursor-pointer hover:opacity-80">Đăng ký</Button>

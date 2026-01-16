@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { baseQueryWithErrorHandler } from './config/baseQueryWithErrorHandler'
-import type { TourRequest, TourResponse, SearchTourRequest, RegisterPlayerRequest } from '@/types/tourTypes'
+import type { TourRequest, TourResponse, SearchTourRequest, RegisterPlayerRequest, PlayerResponse, SearchPlayerRequest } from '@/types/tourTypes'
 import type { PageResponse } from '@/types/commonTypes'
 
 // Define a service using a base URL and expected endpoints
@@ -9,7 +9,7 @@ const TOUR_PRIVATE_PATH = '/api/private/tours'
 export const tourPrivateApi = createApi({
     reducerPath: 'tourPrivateApi',
     baseQuery: baseQueryWithErrorHandler,
-    tagTypes: ["Tour","Tours"],
+    tagTypes: ["Tour", "Tours", "Players"],
     endpoints: (builder) => ({
         getTours: builder.query<PageResponse<TourResponse>, SearchTourRequest | void>({
             query: (params) => ({
@@ -22,12 +22,23 @@ export const tourPrivateApi = createApi({
                 return currentArg !== previousArg
             },
         }),
-         getTourDetail: builder.query<TourResponse, number>({
+        getTourDetail: builder.query<TourResponse, number>({
             query: (id) => ({
                 url: `${TOUR_PRIVATE_PATH}/${id}`,
                 method: 'GET',
             }),
             providesTags: ["Tour"],
+            forceRefetch({ currentArg, previousArg }) {
+                return currentArg !== previousArg
+            },
+        }),
+        getPlayers: builder.query<PageResponse<PlayerResponse>, SearchPlayerRequest | void>({
+            query: (params) => ({
+                url: `${TOUR_PRIVATE_PATH}/players`,
+                method: 'GET',
+                params: params ?? undefined
+            }),
+            providesTags: ["Players"],
             forceRefetch({ currentArg, previousArg }) {
                 return currentArg !== previousArg
             },
@@ -77,6 +88,7 @@ export const {
     useGetToursQuery,
     useGetTourDetailQuery,
     useCreateTourMutation,
+    useGetPlayersQuery,
 } = tourPrivateApi
 
 export const {

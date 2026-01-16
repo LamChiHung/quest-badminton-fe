@@ -46,3 +46,18 @@ export const GenderEnum = {
     FEMALE: "Nữ"
 }
 export type GenderEnum = typeof GenderEnum[keyof typeof GenderEnum]
+
+
+export const PlayerStatusEnum = {
+    PENDING_APPROVE: "PENDING_APPROVE",
+    APPROVED: "APPROVED",
+    REJECTED: "REJECTED",
+    BANNED: "BANNED"
+}
+
+export const PlayerStatusEnumText = {
+    PENDING_APPROVE: "Đang chờ duyệt",
+    APPROVED: "Đã duyệt",
+    REJECTED: "Bị từ chối",
+    BANNED: "Bị cấm"
+}

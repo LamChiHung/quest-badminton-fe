@@ -45,8 +45,16 @@ export default function TourCard({ tour, className, isAdmin = false, url = "#" }
         CANCEL: "border-gray-400 text-white bg-gray-400",
     };
 
+    const clickCard = () => {
+        if (isAdmin) {
+            navigator(`/host/tour-management/${tour.id}`);
+        } else {
+            navigator(`/tours/${tour.id}`);
+        }
+    }
+
     return (
-        <Card onClick={() => navigator(`/host/tour-management/${tour.id}`)} className={`w-96 h-[450px] p-0 ${className} shadow-2xl hover:border-2 hover:border-primary`}>
+        <Card onClick={() => clickCard()} className={`w-96 h-[450px] p-0 ${className} shadow-2xl hover:border-2 hover:border-primary`}>
             <div className="rounded-t-md w-full h-2/5 relative">
                 <div className="flex items-center justify-center h-full">
                     <img className="rounded-t-md w-full h-full object-cover" src={tour.backgroundUrl ? tour.backgroundUrl : `/images/badminton-bg-colorful.jpg`} alt="banner-img" />
