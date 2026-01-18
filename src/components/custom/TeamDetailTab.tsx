@@ -36,7 +36,7 @@ export default function TeamDetailTab({ tourId }: TeamDetailHostProps) {
             <p className="text-2xl font-bold">
                 Danh Sách Đội
             </p>
-            <div className="flex flex-col lg:w-1/2">
+            <div className="flex flex-col w-5/6 md:w-1/2 overflow-x-clip">
                 <div >
                     {teamsData?.content.map((team: TeamResponse) => (
                         <div className="flex flex-col items-center border-2 border-secondary mt-5 rounded-2xl p-4 w-full relative">
