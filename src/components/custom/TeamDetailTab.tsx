@@ -3,10 +3,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import type { TeamResponse } from "@/types/tourTypes";
 import { GenderEnumText, PlayerStatusEnum, PlayerTierEnumText } from "@/types/enums";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
-import { Check } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 import CreateTeamDialog from "./CreateTeamDialog";
-import { Button } from "../ui/button";
-import AddPlayerDialog from "./AddplayerDialog";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible";
+import React from "react";
+import AddPlayerDialog from "./AddPlayerDialog";
 
 interface TeamDetailHostProps {
     tourId: number
@@ -18,6 +19,14 @@ export default function TeamDetailTab({ tourId }: TeamDetailHostProps) {
         "tourId.equals": tourId,
         "status.in": [PlayerStatusEnum.APPROVED]
     });
+    const [openItems, setOpenItems] = React.useState<number[]>([])
+
+
+    const toggleItem = (index: number) => {
+        setOpenItems(prev =>
+            prev.includes(index) ? prev.filter(item => item !== index) : [...prev, index],
+        )
+    }
 
     return (
         <div className="flex flex-col items-center">
@@ -27,52 +36,68 @@ export default function TeamDetailTab({ tourId }: TeamDetailHostProps) {
             <p className="text-2xl font-bold">
                 Danh Sách Đội
             </p>
-            <div className="flex flex-col">
-                <div>
+            <div className="flex flex-col lg:w-1/2">
+                <div >
                     {teamsData?.content.map((team: TeamResponse) => (
-                        <div className="flex flex-col items-center border-2 border-secondary mt-5 rounded-2xl p-4 relative">
+                        <div className="flex flex-col items-center border-2 border-secondary mt-5 rounded-2xl p-4 w-full relative">
                             <div className="absolute top-2 right-2">
-                                <AddPlayerDialog teamId={team.id} players={playersData?.content} />
+                                <AddPlayerDialog teamId={team.id} players={playersData?.content} captainId={team.captain?.id} />
                             </div>
                             <div className="text-xl  font-semibold">
                                 <span>STT: {team.number}</span>
                                 <span> - </span>
                                 <span>{team.name}</span>
                             </div>
-                            <div>
-                                <ScrollArea className="w-xs md:w-sm lg:w-md xl:w-full h-fit p-4">
-                                    <Table>
-                                        <TableHeader>
-                                            <TableRow>
-                                                <TableHead>Tên</TableHead>
-                                                <TableHead>Email</TableHead>
-                                                <TableHead>Trình độ</TableHead>
-                                                <TableHead>Giới tính đăng ký</TableHead>
-                                                <TableHead>Đội trưởng</TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {
-                                                playersData?.content.filter((player) => player.teamId === team.id).map((player) => (
-                                                    <TableRow key={player.id}>
-                                                        <TableCell>{player.name}</TableCell>
-                                                        <TableCell>{player.email}</TableCell>
-                                                        <TableCell>{PlayerTierEnumText[player.tier as keyof typeof PlayerTierEnumText]}</TableCell>
-                                                        <TableCell>{GenderEnumText[player.gender as keyof typeof GenderEnumText]}</TableCell>
-                                                        <TableCell className="text-green-500">{team?.captain?.id === player.id && <Check />}</TableCell>
+                            <div className="w-full">
+                                <Collapsible className="border rounded-lg mt-2"
+                                    key={team.id}
+                                    onOpenChange={() => toggleItem(team.id)}
+                                    open={openItems.includes(team.id)}
+                                >
+                                    <CollapsibleTrigger className="flex w-full items-center justify-between p-4 text-left hover:bg-muted/50">
+                                        <span className="font-medium">Danh sách vận động viên</span>
+                                        <ChevronDown
+                                            className={`h-4 w-4 transition-transform duration-200 ${openItems.includes(team.id) ? "transform rotate-180" : ""
+                                                }`}
+                                        />
+                                    </CollapsibleTrigger>
+                                    <CollapsibleContent className="border-t">
+                                        <ScrollArea className="w-xs md:w-sm lg:w-md xl:w-full h-fit p-4">
+                                            <Table>
+                                                <TableHeader>
+                                                    <TableRow>
+                                                        <TableHead>Tên</TableHead>
+                                                        <TableHead>Email</TableHead>
+                                                        <TableHead>Trình độ</TableHead>
+                                                        <TableHead>Giới tính đăng ký</TableHead>
+                                                        <TableHead>Đội trưởng</TableHead>
                                                     </TableRow>
-                                                ))
-                                            }
-                                        </TableBody>
-                                    </Table>
-                                    <ScrollBar orientation="horizontal" />
-                                </ScrollArea>
+                                                </TableHeader>
+                                                <TableBody>
+                                                    {
+                                                        playersData?.content.filter((player) => player.teamId === team.id).map((player) => (
+                                                            <TableRow key={player.id}>
+                                                                <TableCell>{player.name}</TableCell>
+                                                                <TableCell>{player.email}</TableCell>
+                                                                <TableCell>{PlayerTierEnumText[player.tier as keyof typeof PlayerTierEnumText]}</TableCell>
+                                                                <TableCell>{GenderEnumText[player.gender as keyof typeof GenderEnumText]}</TableCell>
+                                                                <TableCell className="text-green-500">{team?.captain?.id === player.id && <Check />}</TableCell>
+                                                            </TableRow>
+                                                        ))
+                                                    }
+                                                </TableBody>
+                                            </Table>
+                                            <ScrollBar orientation="horizontal" />
+                                        </ScrollArea>
+                                    </CollapsibleContent>
+                                </Collapsible>
+
                             </div>
                         </div>
 
                     ))}
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

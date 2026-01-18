@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
-import { CalendarIcon, Eye, EyeOff, Loader2, LockIcon, MailIcon, Plus, PlusIcon, UserPlus } from "lucide-react"
+import { CalendarIcon, Check, ChevronsUpDown, Eye, EyeOff, Loader2, LockIcon, MailIcon, Plus, PlusIcon, UserPlus } from "lucide-react"
 
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
@@ -28,6 +28,7 @@ import { Switch } from "../ui/switch"
 import { useAddPlayerToTeamMutation, useCreateTeamMutation, useCreateTourMutation, useGetToursQuery } from "@/services/tour"
 import type { PlayerResponse } from "@/types/tourTypes"
 import { MultiSelect } from "../ui/multi-select"
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "../ui/command"
 
 
 const addPlayerSchema = z.object({
@@ -38,22 +39,37 @@ export type AddPlayerSchemaType = z.infer<typeof addPlayerSchema>
 
 interface AddPlayerDialogProps {
     teamId: number,
-    players?: PlayerResponse[]
+    players?: PlayerResponse[],
+    captainId?: number
 }
-export default function AddPlayerDialog({ teamId, players }: AddPlayerDialogProps) {
+export default function AddPlayerDialog({ teamId, players, captainId }: AddPlayerDialogProps) {
+    const playerInTeams = players?.filter(p => p.teamId === teamId)
 
     const form = useForm<AddPlayerSchemaType>({
         resolver: zodResolver(addPlayerSchema),
         defaultValues: {
-            captainId: undefined,
-            playerIds: players?.filter(p => p.teamId !== teamId).map(p => p.id).map(p => String(p)) || [],
+            captainId: captainId ?? undefined,
+            playerIds: playerInTeams?.map(p => p.id).map(p => String(p)) || [],
         }
     })
 
+    useEffect(() => {
+        if (captainId) {
+            form.reset({
+                captainId: captainId,
+            })
+        }
+    }, [captainId])
+
     const [open, setOpen] = useState(false);
     const [addPlayer, { isLoading, isSuccess, error, data }] = useAddPlayerToTeamMutation()
+    const [playersInTeamState, setPlayersInTeamState] = useState<PlayerResponse[]>(playerInTeams || [])
 
     const onSubmit = async (values: AddPlayerSchemaType) => {
+        if (!values.playerIds.includes(String(values.captainId))) {
+            toast.error("Vui lòng chọn đội trưởng hợp lệ!")
+            return;
+        }
         await addPlayer({
             teamId: teamId,
             captainId: values.captainId,
@@ -77,11 +93,68 @@ export default function AddPlayerDialog({ teamId, players }: AddPlayerDialogProp
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4 flex flex-1 flex-col justify-center overflow-y-auto">
                             <DialogHeader>
-                                <DialogTitle>Thêm đội thi đâu</DialogTitle>
+                                <DialogTitle>Thêm đội thi đấu</DialogTitle>
                                 <DialogDescription>
                                     Form tạo đội thi đấu, hãy điền đầy đủ thông tin.
                                 </DialogDescription>
                             </DialogHeader>
+                            <FormField
+                                control={form.control as any}
+                                name="captainId"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-col">
+                                        <FormLabel>Đội trưởng</FormLabel>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <FormControl>
+                                                    <Button
+                                                        className={cn(
+                                                            "w-[200px] justify-between",
+                                                            !field.value && "text-muted-foreground",
+                                                        )}
+                                                        role="combobox"
+                                                        variant="outline"
+                                                    >
+                                                        {field.value
+                                                            ? playersInTeamState.find(player => player.id === field.value)?.name
+                                                            : "Tìm vận đội trưởng"}
+                                                        <ChevronsUpDown className="opacity-50" />
+                                                    </Button>
+                                                </FormControl>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-[200px] p-0">
+                                                <Command>
+                                                    <CommandInput className="h-9" placeholder="Tìm đội trưởng..." />
+                                                    <CommandList>
+                                                        <CommandEmpty>No framework found.</CommandEmpty>
+                                                        <CommandGroup>
+                                                            {playersInTeamState.map(player => (
+                                                                <CommandItem
+                                                                    key={player.id}
+                                                                    onSelect={() => field.onChange(player.id)}
+                                                                    value={String(player.name)}
+                                                                >
+                                                                    {player.name}
+                                                                    <Check
+                                                                        className={cn(
+                                                                            "ml-auto",
+                                                                            player.id === field.value ? "opacity-100" : "opacity-0",
+                                                                        )}
+                                                                    />
+                                                                </CommandItem>
+                                                            ))}
+                                                        </CommandGroup>
+                                                    </CommandList>
+                                                </Command>
+                                            </PopoverContent>
+                                        </Popover>
+                                        <FormDescription>
+                                            Đội trưởng cho đội thi đấu.
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                             <FormField
                                 control={form.control}
                                 name="playerIds"
@@ -92,9 +165,12 @@ export default function AddPlayerDialog({ teamId, players }: AddPlayerDialogProp
                                             <MultiSelect
                                                 maxCount={99999}
                                                 autoSize={true}
-                                                options={players?.map(p => { return { value: `${p.id}`, label: p.name } }) || []}
+                                                options={players?.filter(p => p.teamId === teamId || p.teamId === null).map(p => { return { value: `${p.id}`, label: p.name } }) || []}
                                                 value={field.value}
-                                                onValueChange={field.onChange}
+                                                onValueChange={(value) => {
+                                                    field.onChange(value);
+                                                    setPlayersInTeamState(players?.filter(p => value.includes(String(p.id))) || [])
+                                                }}
                                                 placeholder="Chọn vận động viên"
                                                 defaultValue={players?.filter(p => p.teamId === teamId).map(p => p.id).map(p => String(p))}
                                             />

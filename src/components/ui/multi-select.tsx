@@ -26,6 +26,7 @@ import {
     CommandList,
     CommandSeparator,
 } from "@/components/ui/command";
+import { normalizeVN } from "@/utils/StringUtil";
 
 /**
  * Animation types and configurations
@@ -588,18 +589,17 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                         ...group,
                         options: group.options.filter(
                             (option) =>
-                                option.label
-                                    .toLowerCase()
-                                    .includes(searchValue.toLowerCase()) ||
-                                option.value.toLowerCase().includes(searchValue.toLowerCase())
+                                normalizeVN(option.label)
+                                    .includes(normalizeVN(searchValue)) ||
+                                normalizeVN(option.value).includes(normalizeVN(searchValue))
                         ),
                     }))
                     .filter((group) => group.options.length > 0);
             }
             return options.filter(
                 (option) =>
-                    option.label.toLowerCase().includes(searchValue.toLowerCase()) ||
-                    option.value.toLowerCase().includes(searchValue.toLowerCase())
+                    normalizeVN(option.label).includes(normalizeVN(searchValue)) ||
+                    normalizeVN(option.value).includes(normalizeVN(searchValue))
             );
         }, [options, searchValue, searchable, isGroupedOptions]);
 
