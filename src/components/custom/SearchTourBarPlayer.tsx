@@ -1,14 +1,12 @@
 import type { SearchTourRequest } from "@/types/tourTypes";
 import { Input } from "../ui/input";
-import { InputGroup } from "../ui/input-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import z from "zod/v3";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form";
-import { TourMatchTypeEnum, TourStatusEnum, TourTypeEnum } from "@/types/enums";
+import { TourMatchTypeEnumText, TourStatusEnumText, TourTypeEnumText } from "@/types/enums";
 import { Button } from "../ui/button";
-import { set } from "zod";
 
 const searchTourSchema = z.object({
     name: z.string().optional(),
@@ -22,21 +20,21 @@ interface SearchTourBarPlayerProps {
     setSearchTour: React.Dispatch<React.SetStateAction<SearchTourRequest>>
 }
 export default function SearchTourBarPlayer({ searchTour, setSearchTour }: SearchTourBarPlayerProps) {
-    const TYPE_ENTRIES = Object.entries(TourTypeEnum).map(
+    const TYPE_ENTRIES = Object.entries(TourTypeEnumText).map(
         ([key, value]) => ({
-            key: key as keyof typeof TourTypeEnum,
+            key: key as keyof typeof TourTypeEnumText,
             value,
         })
     )
-    const MATCH_TYPE_ENTRIES = Object.entries(TourMatchTypeEnum).map(
+    const MATCH_TYPE_ENTRIES = Object.entries(TourMatchTypeEnumText).map(
         ([key, value]) => ({
-            key: key as keyof typeof TourMatchTypeEnum,
+            key: key as keyof typeof TourMatchTypeEnumText,
             value,
         })
     );
-    const TOUR_STATUS_ENTRIES = Object.entries(TourStatusEnum).map(
+    const TOUR_STATUS_ENTRIES = Object.entries(TourStatusEnumText).map(
         ([key, value]) => ({
-            key: key as keyof typeof TourStatusEnum,
+            key: key as keyof typeof TourStatusEnumText,
             value,
         })
     );

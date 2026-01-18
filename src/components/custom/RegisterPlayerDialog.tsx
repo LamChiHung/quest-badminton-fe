@@ -1,5 +1,5 @@
 import { useRegisterPlayerMutation } from "@/services/tour";
-import { GenderEnum, PlayerTierEnum } from "@/types/enums";
+import { GenderEnum, GenderEnumText, PlayerTierEnum, PlayerTierEnumText } from "@/types/enums";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -24,15 +24,15 @@ interface RegisterPlayerDialogProps {
 }
 
 export default function RegisterPlayerDialog({ id }: RegisterPlayerDialogProps) {
-    const TIER_ENTRIES = Object.entries(PlayerTierEnum).map(
+    const TIER_ENTRIES = Object.entries(PlayerTierEnumText).map(
         ([key, value]) => ({
-            key: key as keyof typeof PlayerTierEnum,
+            key: key as keyof typeof PlayerTierEnumText,
             value,
         })
     );
-    const GENDER_ENTRIES = Object.entries(GenderEnum).map(
+    const GENDER_ENTRIES = Object.entries(GenderEnumText).map(
         ([key, value]) => ({
-            key: key as keyof typeof GenderEnum,
+            key: key as keyof typeof GenderEnumText,
             value,
         })
     );

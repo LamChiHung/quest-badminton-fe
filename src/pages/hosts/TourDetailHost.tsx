@@ -1,4 +1,5 @@
 import PlayerApproveTab from "@/components/custom/PlayerApproveTab";
+import TeamDetailTab from "@/components/custom/TeamDetailTab";
 import TourDetailInfoTab from "@/components/custom/TourDetailInfoTab";
 import { useGetTourDetailQuery } from "@/services/tour";
 import type { TourResponse } from "@/types/tourTypes";
@@ -60,7 +61,7 @@ export default function TourDetailHost({ }: TourDetailHostProps) {
             <div className="pt-5">
                 {activeTab === 0 && <TourDetailInfoTab tour={data as TourResponse} />}
                 {activeTab === 1 && <PlayerApproveTab tourId={id} />}
-                {activeTab === 2 && <div>Danh sách đội</div>}
+                {activeTab === 2 && <TeamDetailTab tourId={id} />}
                 {activeTab === 3 && <div>Danh sách trận đấu</div>}
             </div>
         </div>

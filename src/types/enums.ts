@@ -4,33 +4,50 @@ export const ClubEnum = {
     OTHERS: "OTHERS",
 } as const
 
-export type ClubEnum = typeof ClubEnum[keyof typeof ClubEnum]
-
 export const TourTypeEnum = {
+    SOLO: "SOLO",
+    TEAM: "TEAM",
+} as const
+
+export const TourTypeEnumText = {
     SOLO: "Cá nhân",
     TEAM: "Đồng đội",
 } as const
 
-export type TourTypeEnum = typeof TourTypeEnum[keyof typeof TourTypeEnum]
-
 export const TourMatchTypeEnum = {
+    KILL: "KILL",
+    ROUND: "ROUND",
+} as const
+
+export const TourMatchTypeEnumText = {
     KILL: "Loại trực tiếp",
     ROUND: "Vòng tròn",
 } as const
 
-export type TourMatchTypeEnum = typeof TourMatchTypeEnum[keyof typeof TourMatchTypeEnum]
-
 export const TourStatusEnum = {
+    UPCOMING: "UPCOMING",
+    LIVE: "LIVE",
+    END: "END",
+    CANCEL: "CANCEL",
+} as const
+
+export const TourStatusEnumText = {
     UPCOMING: "Sắp diễn ra",
     LIVE: "Đang diễn ra",
     END: "Kết thúc",
     CANCEL: "Hủy bỏ",
 } as const
 
-export type TourStatusEnum = typeof TourStatusEnum[keyof typeof TourStatusEnum]
-
-
 export const PlayerTierEnum = {
+    Y: "Y",
+    TBT: "TBT",
+    TB: "TB",
+    TBC: "TBC",
+    TBCC: "TBCC",
+    K: "K"
+}
+
+export const PlayerTierEnumText = {
     Y: "Yếu",
     TBT: "Trung Bình -",
     TB: "Trung Bình",
@@ -38,15 +55,16 @@ export const PlayerTierEnum = {
     TBCC: "Trung Bình ++",
     K: "Khá"
 }
-export type PlayerTierEnum = typeof PlayerTierEnum[keyof typeof PlayerTierEnum]
-
 
 export const GenderEnum = {
+    MALE: "MALE",
+    FEMALE: "FEMALE"
+}
+
+export const GenderEnumText = {
     MALE: "Nam",
     FEMALE: "Nữ"
 }
-export type GenderEnum = typeof GenderEnum[keyof typeof GenderEnum]
-
 
 export const PlayerStatusEnum = {
     PENDING_APPROVE: "PENDING_APPROVE",

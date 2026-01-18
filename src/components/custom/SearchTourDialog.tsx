@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import z from "zod"
 import { toast } from "sonner"
-import { TourMatchTypeEnum, TourStatusEnum, TourTypeEnum } from "@/types/enums"
+import { TourMatchTypeEnumText, TourStatusEnumText, TourTypeEnumText } from "@/types/enums"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
@@ -49,21 +49,21 @@ type SearchTourProps = {
 };
 
 export default function SearchTourDialog({ setParams }: SearchTourProps) {
-    const TYPE_ENTRIES = Object.entries(TourTypeEnum).map(
+    const TYPE_ENTRIES = Object.entries(TourTypeEnumText).map(
         ([key, value]) => ({
-            key: key as keyof typeof TourTypeEnum,
+            key: key as keyof typeof TourTypeEnumText,
             value,
         })
     )
-    const MATCH_TYPE_ENTRIES = Object.entries(TourMatchTypeEnum).map(
+    const MATCH_TYPE_ENTRIES = Object.entries(TourMatchTypeEnumText).map(
         ([key, value]) => ({
-            key: key as keyof typeof TourMatchTypeEnum,
+            key: key as keyof typeof TourMatchTypeEnumText,
             value,
         })
     );
-    const TOUR_STATUS_ENTRIES = Object.entries(TourStatusEnum).map(
+    const TOUR_STATUS_ENTRIES = Object.entries(TourStatusEnumText).map(
         ([key, value]) => ({
-            key: key as keyof typeof TourStatusEnum,
+            key: key as keyof typeof TourStatusEnumText,
             value,
         })
     );

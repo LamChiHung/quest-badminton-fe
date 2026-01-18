@@ -1,12 +1,9 @@
-import InfoCard from "@/components/custom/InforCard";
 import PaginationSetState from "@/components/custom/PaginationSetState";
 import SearchTourBarPlayer from "@/components/custom/SearchTourBarPlayer";
 import TourCard from "@/components/custom/TourCard";
 import { useGetPublicToursQuery } from "@/services/tour";
 import type { PageResponse } from "@/types/commonTypes";
-import { TourMatchTypeEnum, TourStatusEnum, TourTypeEnum } from "@/types/enums";
 import type { SearchTourRequest, TourResponse } from "@/types/tourTypes";
-import { formatDate } from "@/utils/StringUtil";
 import { useEffect, useState } from "react";
 
 export default function TourPage() {

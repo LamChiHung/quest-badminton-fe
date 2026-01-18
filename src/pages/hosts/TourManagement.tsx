@@ -1,18 +1,12 @@
 import CreateTourDialog from "@/components/custom/CreateTourDialog";
 import DashboardCard from "@/components/custom/DashboardCard";
-import InfoCard from "@/components/custom/InforCard";
 import PaginationSetState from "@/components/custom/PaginationSetState";
 import SearchTourDialog from "@/components/custom/SearchTourDialog";
 import TourCard from "@/components/custom/TourCard";
-import { Button } from "@/components/ui/button";
 import { useGetToursQuery } from "@/services/tour";
 import type { PageResponse } from "@/types/commonTypes";
-import { TourMatchTypeEnum, TourStatusEnum, TourTypeEnum } from "@/types/enums";
 import type { SearchTourRequest, TourResponse } from "@/types/tourTypes";
-import { formatDate } from "@/utils/StringUtil";
-import { current } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
 
 export default function TourManagement() {
 
@@ -25,13 +19,6 @@ export default function TourManagement() {
         size: 0
     });
     const { data, isLoading, isError } = useGetToursQuery(searchTour);
-    const STATUS_ENTRIES = Object.entries(TourStatusEnum).map(
-        ([key, value]) => ({
-            key: key as keyof typeof TourStatusEnum,
-            value,
-        })
-    );
-    const navigator = useNavigate();
     useEffect(() => {
         if (data) {
             setTours(data);

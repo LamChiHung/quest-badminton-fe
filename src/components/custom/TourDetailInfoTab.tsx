@@ -1,6 +1,6 @@
 import type { TourResponse } from "@/types/tourTypes";
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";
-import { TourMatchTypeEnum, TourStatusEnum, TourTypeEnum } from "@/types/enums";
+import { TourMatchTypeEnumText, TourStatusEnumText, TourTypeEnumText } from "@/types/enums";
 import { formatDate } from "@/utils/StringUtil";
 import { is } from "date-fns/locale";
 
@@ -20,15 +20,15 @@ export default function TourDetailInfoTab({ tour }: { tour: TourResponse }) {
         },
         {
             title: "Trạng thái",
-            value: TourStatusEnum[tour?.status as keyof typeof TourStatusEnum]
+            value: TourStatusEnumText[tour?.status as keyof typeof TourStatusEnumText]
         },
         {
             title: "Loại giải đấu",
-            value: TourTypeEnum[tour?.type as keyof typeof TourTypeEnum]
+            value: TourTypeEnumText[tour?.type as keyof typeof TourTypeEnumText]
         },
         {
             title: "Loại trận đấu",
-            value: TourMatchTypeEnum[tour?.matchType as keyof typeof TourMatchTypeEnum]
+            value: TourMatchTypeEnumText[tour?.matchType as keyof typeof TourMatchTypeEnumText]
         },
         {
             title: "Số lượng vận động viên nam",

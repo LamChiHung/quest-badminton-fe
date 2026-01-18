@@ -1,5 +1,4 @@
-import type { NumberDomain } from "recharts/types/util/types"
-import type { TourMatchTypeEnum, TourStatusEnum, TourTypeEnum } from "./enums"
+import type { TourTypeEnum } from "./enums"
 
 export interface TourRequest {
     name: string
@@ -26,7 +25,7 @@ export interface TourResponse {
     malePlayerRegistered: number
     femalePlayers: number
     femalePlayerRegistered: number
-    type: TourTypeEnum
+    type: string
     matchType: string
     startDate: string
     registrationEndDate: string
@@ -77,6 +76,7 @@ export interface PlayerResponse {
 }
 
 export interface SearchPlayerRequest {
+    "id.equals"?: number,
     "tourId.equals"?: number,
     "email.contains"?: string,
     "name.contains"?: string,
@@ -86,4 +86,38 @@ export interface SearchPlayerRequest {
     "status.in"?: string[],
     "page"?: number,
     "size"?: number
+}
+
+export interface ApprovePlayerRequest {
+    tourId: number
+    playerId: number
+    note?: string
+    isApprove: boolean
+}
+
+export interface SearchTeamRequest {
+    "id.equals"?: number,
+    "tourId.equals"?: number,
+    "name.contains"?: string,
+    "page"?: number,
+    "size"?: number
+}
+
+export interface TeamResponse {
+    id: number
+    name: string
+    number: number
+    tourId: number
+    captain?: PlayerResponse
+}
+
+export interface TeamRequest {
+    name: string
+    tourId: number
+}
+
+export interface AddPlayerRequest {
+    teamId: number
+    captainId: number
+    playerIds: number[]
 }

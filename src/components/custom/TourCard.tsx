@@ -7,7 +7,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { TourMatchTypeEnum, TourStatusEnum, TourTypeEnum } from "@/types/enums"
+import { TourMatchTypeEnumText, TourStatusEnumText, TourTypeEnumText } from "@/types/enums"
 import type { TourResponse } from "@/types/tourTypes"
 import { formatDate } from "@/utils/StringUtil"
 import { ArrowRightIcon, Calendar, CalendarCheck, CalendarClock, Divide, MapPin, Mars, NotebookPen, StarIcon, Trophy, User, Venus } from "lucide-react"
@@ -19,10 +19,10 @@ export default function TourCard({ tour, className, isAdmin = false, url = "#" }
 
     const content = [{
         title: "Loại giải đấu",
-        value: TourTypeEnum[tour.type as keyof typeof TourTypeEnum]
+        value: TourTypeEnumText[tour.type as keyof typeof TourTypeEnumText]
     }, {
         title: "Loại trận đấu",
-        value: TourMatchTypeEnum[tour.matchType as keyof typeof TourMatchTypeEnum]
+        value: TourMatchTypeEnumText[tour.matchType as keyof typeof TourMatchTypeEnumText]
     }, {
         title: "Ngày bắt đầu giải đấu",
         value: formatDate(tour.startDate)
@@ -65,7 +65,7 @@ export default function TourCard({ tour, className, isAdmin = false, url = "#" }
                 {
                     <div className={`${statusColorMap[tour.status]} absolute top-2 right-2 w-22 h-6 rounded-md border-2 shadow-2xl flex items-center justify-center text-xs font-medium`}>
                         <div>
-                            {TourStatusEnum[tour.status as keyof typeof TourStatusEnum]}
+                            {TourStatusEnumText[tour.status as keyof typeof TourStatusEnumText]}
                         </div>
                     </div>
                 }

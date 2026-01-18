@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { baseQueryWithErrorHandler } from './config/baseQueryWithErrorHandler'
-import type { TourRequest, TourResponse, SearchTourRequest, RegisterPlayerRequest, PlayerResponse, SearchPlayerRequest } from '@/types/tourTypes'
+import type { TourRequest, TourResponse, SearchTourRequest, RegisterPlayerRequest, PlayerResponse, SearchPlayerRequest, ApprovePlayerRequest, TeamResponse, SearchTeamRequest, TeamRequest, AddPlayerRequest } from '@/types/tourTypes'
 import type { PageResponse } from '@/types/commonTypes'
 
 // Define a service using a base URL and expected endpoints
@@ -9,7 +9,7 @@ const TOUR_PRIVATE_PATH = '/api/private/tours'
 export const tourPrivateApi = createApi({
     reducerPath: 'tourPrivateApi',
     baseQuery: baseQueryWithErrorHandler,
-    tagTypes: ["Tour", "Tours", "Players"],
+    tagTypes: ["Tour", "Tours", "Players", "Teams"],
     endpoints: (builder) => ({
         getTours: builder.query<PageResponse<TourResponse>, SearchTourRequest | void>({
             query: (params) => ({
@@ -50,7 +50,42 @@ export const tourPrivateApi = createApi({
                 body,
             }),
             invalidatesTags: ["Tours"],
-        })
+        }),
+        approvePlayer: builder.mutation<void, ApprovePlayerRequest>({
+            query: (body) => ({
+                url: `${TOUR_PRIVATE_PATH}/players/approve`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ["Tour", "Players"],
+        }),
+        getTeams: builder.query<PageResponse<TeamResponse>, SearchTeamRequest | void>({
+            query: (params) => ({
+                url: `${TOUR_PRIVATE_PATH}/teams`,
+                method: 'GET',
+                params: params ?? undefined
+            }),
+            providesTags: ["Teams"],
+            forceRefetch({ currentArg, previousArg }) {
+                return currentArg !== previousArg
+            },
+        }),
+        createTeam: builder.mutation<void, TeamRequest>({
+            query: (body) => ({
+                url: `${TOUR_PRIVATE_PATH}/teams`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ["Teams"],
+        }),
+        addPlayerToTeam: builder.mutation<void, AddPlayerRequest>({
+            query: (body) => ({
+                url: `${TOUR_PRIVATE_PATH}/teams/players`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ["Teams", "Players"],
+        }),
     }),
 })
 
@@ -89,6 +124,10 @@ export const {
     useGetTourDetailQuery,
     useCreateTourMutation,
     useGetPlayersQuery,
+    useApprovePlayerMutation,
+    useGetTeamsQuery,
+    useCreateTeamMutation,
+    useAddPlayerToTeamMutation
 } = tourPrivateApi
 
 export const {
