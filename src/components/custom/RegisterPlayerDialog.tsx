@@ -20,10 +20,11 @@ const createPlayerSchema = z.object({
 });
 export type CreatePlayerSchemaType = z.infer<typeof createPlayerSchema>
 interface RegisterPlayerDialogProps {
-    id: number
+    id: number,
+    buttonClassName?: string
 }
 
-export default function RegisterPlayerDialog({ id }: RegisterPlayerDialogProps) {
+export default function RegisterPlayerDialog({ id, buttonClassName }: RegisterPlayerDialogProps) {
     const TIER_ENTRIES = Object.entries(PlayerTierEnumText).map(
         ([key, value]) => ({
             key: key as keyof typeof PlayerTierEnumText,
@@ -70,7 +71,7 @@ export default function RegisterPlayerDialog({ id }: RegisterPlayerDialogProps) 
         <div onClick={(e) => clickDialog(e)} className="flex">
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
-                    <Button variant="default" className="cursor-pointer hover:opacity-80">Đăng ký</Button>
+                    <Button variant="default" className={`cursor-pointer hover:opacity-80 ${buttonClassName}`}>Đăng ký</Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <Form {...form}>

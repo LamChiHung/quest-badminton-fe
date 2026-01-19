@@ -49,7 +49,7 @@ export default function TourCard({ tour, className, isAdmin = false, url = "#" }
         if (isAdmin) {
             navigator(`/host/tour-management/${tour.id}`);
         } else {
-            navigator(`/tours/${tour.id}`);
+            navigator(`/tours/${tour.code}`);
         }
     }
 

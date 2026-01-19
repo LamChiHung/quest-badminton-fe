@@ -93,7 +93,7 @@ const TOUR_PUBLIC_PATH = '/api/public/tours'
 export const tourPublicApi = createApi({
     reducerPath: 'tourPublicApi',
     baseQuery: baseQueryWithErrorHandler,
-    tagTypes: ["Tours"],
+    tagTypes: ["Tours", "Tour"],
     endpoints: (builder) => ({
         getPublicTours: builder.query<PageResponse<TourResponse>, SearchTourRequest | void>({
             query: (params) => ({
@@ -112,7 +112,17 @@ export const tourPublicApi = createApi({
                 method: 'POST',
                 body,
             }),
-        })
+        }),
+        getTourDetailPublic: builder.query<TourResponse, string>({
+            query: (tourCode) => ({
+                url: `${TOUR_PUBLIC_PATH}/${tourCode}`,
+                method: 'GET',
+            }),
+            providesTags: ["Tour"],
+            forceRefetch({ currentArg, previousArg }) {
+                return currentArg !== previousArg
+            },
+        }),
     }),
 })
 
@@ -133,4 +143,5 @@ export const {
 export const {
     useGetPublicToursQuery,
     useRegisterPlayerMutation,
+    useGetTourDetailPublicQuery,
 } = tourPublicApi
