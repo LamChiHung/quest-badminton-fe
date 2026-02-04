@@ -21,6 +21,7 @@ export default function TeamDetailTab({ tourId }: TeamDetailHostProps) {
     });
     const { data: pairsData, isLoading: isPairsLoading, isError: isPairsError } = useGetPlayerPairsQuery({
         "tourId.equals": tourId,
+        size: 999999
     });
     const [openItems, setOpenItems] = React.useState<number[]>([])
     const [openPairItems, setOpenPairItems] = React.useState<string[]>([])

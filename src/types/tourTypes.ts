@@ -132,6 +132,8 @@ export interface SearchPlayerPairRequest {
     "playerId.in"?: PlayerResponse,
     "tourId.equals"?: number,
     "teamId.equals"?: number,
+    page?: number
+    size?: number
 }
 
 export interface PlayerPairResponse {
@@ -148,4 +150,47 @@ export interface RegisterPlayerPairRequest {
     player1Id: number
     player2Id: number | undefined
     type: string
+}
+
+export interface SearchRoundRequest {
+    "id.equals"?: number,
+    "name.contains"?: string,
+    "tourId.equals"?: number,
+    page?: number
+    size?: number
+}
+
+
+export interface RoundResponse {
+    id: number,
+    name: string,
+    tourId: number,
+    type: string
+}
+
+export interface RoundRequest {
+    name?: string,
+    tourId?: number,
+    type?: string
+}
+
+export interface SearchGroupMatchRequest {
+    "id.equals"?: number,
+    "name.contains"?: string,
+    "tourId.equals"?: number,
+    "roundId.equals"?: number,
+    page?: number
+    size?: number
+}
+
+export interface GroupMatchRequest {
+    name?: string,
+    tourId?: number,
+    roundId?: number
+}
+
+export interface GroupMatchResponse {
+    id: number,
+    name: string,
+    tourId: number,
 }

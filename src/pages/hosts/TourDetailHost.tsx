@@ -1,3 +1,4 @@
+import MatchManagementTab from "@/components/custom/MatchManagementTab";
 import PlayerApproveTab from "@/components/custom/PlayerApproveTab";
 import TeamDetailTab from "@/components/custom/TeamDetailTab";
 import TourDetailInfoTab from "@/components/custom/TourDetailInfoTab";
@@ -62,7 +63,7 @@ export default function TourDetailHost({ }: TourDetailHostProps) {
                 {activeTab === 0 && <TourDetailInfoTab tour={data as TourResponse} />}
                 {activeTab === 1 && <PlayerApproveTab tourId={id} />}
                 {activeTab === 2 && <TeamDetailTab tourId={id} />}
-                {activeTab === 3 && <div>Danh sách trận đấu</div>}
+                {activeTab === 3 && <MatchManagementTab tour={data as TourResponse} />}
             </div>
         </div>
     )

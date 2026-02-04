@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { baseQueryWithErrorHandler } from './config/baseQueryWithErrorHandler'
-import type { TourRequest, TourResponse, SearchTourRequest, RegisterPlayerRequest, PlayerResponse, SearchPlayerRequest, ApprovePlayerRequest, TeamResponse, SearchTeamRequest, TeamRequest, AddPlayerRequest, TourRoleResponse, PlayerPairResponse, RegisterPlayerPairRequest, SearchPlayerPairRequest } from '@/types/tourTypes'
+import type { TourRequest, TourResponse, SearchTourRequest, RegisterPlayerRequest, PlayerResponse, SearchPlayerRequest, ApprovePlayerRequest, TeamResponse, SearchTeamRequest, TeamRequest, AddPlayerRequest, TourRoleResponse, PlayerPairResponse, RegisterPlayerPairRequest, SearchPlayerPairRequest, RoundResponse, SearchRoundRequest, RoundRequest, GroupMatchRequest, SearchGroupMatchRequest, GroupMatchResponse } from '@/types/tourTypes'
 import type { PageResponse } from '@/types/commonTypes'
 
 // Define a service using a base URL and expected endpoints
@@ -9,7 +9,7 @@ const TOUR_PRIVATE_PATH = '/api/private/tours'
 export const tourPrivateApi = createApi({
     reducerPath: 'tourPrivateApi',
     baseQuery: baseQueryWithErrorHandler,
-    tagTypes: ["Tour", "Tours", "Players", "Teams", "PlayerPairs"],
+    tagTypes: ["Tour", "Tours", "Players", "Teams", "PlayerPairs", "Rounds", "GroupMatches"],
     endpoints: (builder) => ({
         getTours: builder.query<PageResponse<TourResponse>, SearchTourRequest | void>({
             query: (params) => ({
@@ -96,6 +96,44 @@ export const tourPrivateApi = createApi({
             forceRefetch({ currentArg, previousArg }) {
                 return currentArg !== previousArg
             },
+        }),
+        getRounds: builder.query<PageResponse<RoundResponse>, SearchRoundRequest | void>({
+            query: (params) => ({
+                url: `${TOUR_PRIVATE_PATH}/rounds`,
+                method: 'GET',
+                params: params ?? undefined
+            }),
+            providesTags: ["Rounds"],
+            forceRefetch({ currentArg, previousArg }) {
+                return currentArg !== previousArg
+            },
+        }),
+        createRound: builder.mutation<void, RoundRequest>({
+            query: (body) => ({
+                url: `${TOUR_PRIVATE_PATH}/rounds`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ["Rounds"],
+        }),
+        getGroupMatches: builder.query<PageResponse<GroupMatchResponse>, SearchGroupMatchRequest | void>({
+            query: (params) => ({
+                url: `${TOUR_PRIVATE_PATH}/group-matches`,
+                method: 'GET',
+                params: params ?? undefined
+            }),
+            providesTags: ["GroupMatches"],
+            forceRefetch({ currentArg, previousArg }) {
+                return currentArg !== previousArg
+            },
+        }),
+        createGroupMatch: builder.mutation<void, GroupMatchRequest>({
+            query: (body) => ({
+                url: `${TOUR_PRIVATE_PATH}/group-matches`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ["GroupMatches"],
         }),
     }),
 })
@@ -225,7 +263,11 @@ export const {
     useGetTeamsQuery,
     useCreateTeamMutation,
     useAddPlayerToTeamMutation,
-    useGetPlayerPairsQuery
+    useGetPlayerPairsQuery,
+    useGetRoundsQuery,
+    useGetGroupMatchesQuery,
+    useCreateRoundMutation,
+    useCreateGroupMatchMutation
 } = tourPrivateApi
 
 export const {

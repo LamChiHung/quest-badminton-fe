@@ -109,3 +109,17 @@ export const PlayerPairTypeEnumText = {
     DOUBLE_FEMALE: "Đôi Nữ",
     MIX: "Đôi Nam Nữ"
 }
+
+export const RoundTypeEnum = {
+    QUALIFYING: "QUALIFYING",
+    QUARTER: "QUARTER",
+    SEMI: "SEMI",
+    FINAL: "FINAL",
+}
+
+export const RoundTypeEnumText = {
+    QUALIFYING: "Vòng loại",
+    QUARTER: "Tứ kết",
+    SEMI: "Bán kết",
+    FINAL: "Chung kết",
+}
