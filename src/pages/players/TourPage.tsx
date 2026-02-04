@@ -22,7 +22,7 @@ export default function TourPage() {
         }
     }, [data]);
     return (
-        <div className="w-dvw flex justify-center">
+        <div className="w-full flex justify-center">
             <div className="container flex flex-col">
                 <div className="py-6">
                     <SearchTourBarPlayer searchTour={searchTour} setSearchTour={setSearchTour} />

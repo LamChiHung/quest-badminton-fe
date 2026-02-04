@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { baseQueryWithErrorHandler } from './config/baseQueryWithErrorHandler'
-import type { TourRequest, TourResponse, SearchTourRequest, RegisterPlayerRequest, PlayerResponse, SearchPlayerRequest, ApprovePlayerRequest, TeamResponse, SearchTeamRequest, TeamRequest, AddPlayerRequest } from '@/types/tourTypes'
+import type { TourRequest, TourResponse, SearchTourRequest, RegisterPlayerRequest, PlayerResponse, SearchPlayerRequest, ApprovePlayerRequest, TeamResponse, SearchTeamRequest, TeamRequest, AddPlayerRequest, TourRoleResponse, PlayerPairResponse, RegisterPlayerPairRequest, SearchPlayerPairRequest } from '@/types/tourTypes'
 import type { PageResponse } from '@/types/commonTypes'
 
 // Define a service using a base URL and expected endpoints
@@ -9,7 +9,7 @@ const TOUR_PRIVATE_PATH = '/api/private/tours'
 export const tourPrivateApi = createApi({
     reducerPath: 'tourPrivateApi',
     baseQuery: baseQueryWithErrorHandler,
-    tagTypes: ["Tour", "Tours", "Players", "Teams"],
+    tagTypes: ["Tour", "Tours", "Players", "Teams", "PlayerPairs"],
     endpoints: (builder) => ({
         getTours: builder.query<PageResponse<TourResponse>, SearchTourRequest | void>({
             query: (params) => ({
@@ -86,6 +86,17 @@ export const tourPrivateApi = createApi({
             }),
             invalidatesTags: ["Teams", "Players"],
         }),
+        getPlayerPairs: builder.query<PageResponse<PlayerPairResponse>, SearchPlayerPairRequest | void>({
+            query: (params) => ({
+                url: `${TOUR_PRIVATE_PATH}/player-pairs`,
+                method: 'GET',
+                params: params ?? undefined
+            }),
+            providesTags: ["PlayerPairs"],
+            forceRefetch({ currentArg, previousArg }) {
+                return currentArg !== previousArg
+            },
+        }),
     }),
 })
 
@@ -93,7 +104,7 @@ const TOUR_PUBLIC_PATH = '/api/public/tours'
 export const tourPublicApi = createApi({
     reducerPath: 'tourPublicApi',
     baseQuery: baseQueryWithErrorHandler,
-    tagTypes: ["Tours", "Tour"],
+    tagTypes: ["Tours", "Tour", "TourRole", "MyTeam", "TeamPlayers", "TeamPlayerPairs", "TourTeams", "TourPlayers"],
     endpoints: (builder) => ({
         getPublicTours: builder.query<PageResponse<TourResponse>, SearchTourRequest | void>({
             query: (params) => ({
@@ -112,6 +123,7 @@ export const tourPublicApi = createApi({
                 method: 'POST',
                 body,
             }),
+            invalidatesTags: ["Tour"],
         }),
         getTourDetailPublic: builder.query<TourResponse, string>({
             query: (tourCode) => ({
@@ -123,7 +135,82 @@ export const tourPublicApi = createApi({
                 return currentArg !== previousArg
             },
         }),
-    }),
+        getTourRole: builder.query<TourRoleResponse, number>({
+            query: (tourId) => ({
+                url: `${TOUR_PUBLIC_PATH}/${tourId}/check-role`,
+                method: 'GET',
+            }),
+            providesTags: ["TourRole"],
+            forceRefetch({ currentArg, previousArg }) {
+                return currentArg !== previousArg
+            },
+        }),
+        getMyTeam: builder.query<TeamResponse, number>({
+            query: (tourId) => ({
+                url: `${TOUR_PUBLIC_PATH}/${tourId}/my-team`,
+                method: 'GET',
+            }),
+            providesTags: ["MyTeam"],
+            forceRefetch({ currentArg, previousArg }) {
+                return currentArg !== previousArg
+            },
+        }),
+        getTeamPlayers: builder.query<PageResponse<PlayerResponse>, number>({
+            query: (teamId) => ({
+                url: `${TOUR_PUBLIC_PATH}/teams/${teamId}/players`,
+                method: 'GET',
+            }),
+            providesTags: ["TeamPlayers"],
+            forceRefetch({ currentArg, previousArg }) {
+                return currentArg !== previousArg
+            },
+        }),
+        getTeamPairs: builder.query<PageResponse<PlayerPairResponse>, number>({
+            query: (teamId) => ({
+                url: `${TOUR_PUBLIC_PATH}/teams/${teamId}/player-pairs`,
+                method: 'GET',
+            }),
+            providesTags: ["TeamPlayerPairs"],
+            forceRefetch({ currentArg, previousArg }) {
+                return currentArg !== previousArg
+            },
+        }),
+        registerPlayerPair: builder.mutation<void, RegisterPlayerPairRequest>({
+            query: (body) => ({
+                url: `${TOUR_PUBLIC_PATH}/register/player-pairs`,
+                method: 'POST',
+                body,
+            }),
+            invalidatesTags: ["TeamPlayerPairs"],
+        }),
+        deletePlayerPair: builder.mutation<void, number>({
+            query: (pairId) => ({
+                url: `${TOUR_PUBLIC_PATH}/player-pairs/${pairId}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ["TeamPlayerPairs"],
+        }),
+        getTourTeams: builder.query<PageResponse<TeamResponse>, number>({
+            query: (tourId) => ({
+                url: `${TOUR_PUBLIC_PATH}/${tourId}/teams`,
+                method: 'GET',
+            }),
+            providesTags: ["TourTeams"],
+            forceRefetch({ currentArg, previousArg }) {
+                return currentArg !== previousArg
+            },
+        }),
+        getTourPlayers: builder.query<PageResponse<PlayerResponse>, number>({
+            query: (tourId) => ({
+                url: `${TOUR_PUBLIC_PATH}/${tourId}/players`,
+                method: 'GET',
+            }),
+            providesTags: ["TourPlayers"],
+            forceRefetch({ currentArg, previousArg }) {
+                return currentArg !== previousArg
+            },
+        }),
+    })
 })
 
 
@@ -137,11 +224,20 @@ export const {
     useApprovePlayerMutation,
     useGetTeamsQuery,
     useCreateTeamMutation,
-    useAddPlayerToTeamMutation
+    useAddPlayerToTeamMutation,
+    useGetPlayerPairsQuery
 } = tourPrivateApi
 
 export const {
     useGetPublicToursQuery,
     useRegisterPlayerMutation,
     useGetTourDetailPublicQuery,
+    useGetTourRoleQuery,
+    useGetMyTeamQuery,
+    useGetTeamPlayersQuery,
+    useGetTeamPairsQuery,
+    useRegisterPlayerPairMutation,
+    useDeletePlayerPairMutation,
+    useGetTourTeamsQuery,
+    useGetTourPlayersQuery
 } = tourPublicApi

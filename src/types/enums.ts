@@ -79,3 +79,33 @@ export const PlayerStatusEnumText = {
     REJECTED: "Bị từ chối",
     BANNED: "Bị cấm"
 }
+
+export const TourRoleEnum = {
+    GUEST: "GUEST",
+    PLAYER: "PLAYER",
+    REFEREE: "REFEREE",
+    CAPTAIN: "CAPTAIN"
+}
+
+export const TourRoleEnumText = {
+    GUEST: "Khách",
+    PLAYER: "Vận động viên",
+    REFEREE: "Trọng tài",
+    CAPTAIN: "Đội trưởng"
+}
+
+export const PlayerPairTypeEnum = {
+    SINGLE_MALE: "SINGLE_MALE",
+    SINGLE_FEMALE: "SINGLE_FEMALE",
+    DOUBLE_MALE: "DOUBLE_MALE",
+    DOUBLE_FEMALE: "DOUBLE_FEMALE",
+    MIX: "MIX"
+}
+
+export const PlayerPairTypeEnumText = {
+    SINGLE_MALE: "Đơn Nam",
+    SINGLE_FEMALE: "Đơn Nữ",
+    DOUBLE_MALE: "Đôi Nam",
+    DOUBLE_FEMALE: "Đôi Nữ",
+    MIX: "Đôi Nam Nữ"
+}

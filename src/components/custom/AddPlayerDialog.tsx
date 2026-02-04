@@ -126,7 +126,7 @@ export default function AddPlayerDialog({ teamId, players, captainId }: AddPlaye
                                                 <Command>
                                                     <CommandInput className="h-9" placeholder="Tìm đội trưởng..." />
                                                     <CommandList>
-                                                        <CommandEmpty>No framework found.</CommandEmpty>
+                                                        <CommandEmpty>Không thấy vận động viên.</CommandEmpty>
                                                         <CommandGroup>
                                                             {playersInTeamState.map(player => (
                                                                 <CommandItem

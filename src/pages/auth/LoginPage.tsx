@@ -70,7 +70,7 @@ export default function LoginPage() {
 
     return (
         <>
-            <div className="w-dvw h-dvh flex justify-center items-right bg-linear-to-r from-primary to-secondary ">
+            <div className="w-full h-dvh flex justify-center items-right bg-linear-to-r from-primary to-secondary ">
                 <div className="container flex justify-center items-center">
                     <div className="login-form max-w-md min-w-xs w-10/12 min-h-100 bg-white rounded-2xl shadow-2xl flex items-center flex-col justify-between p-8">
                         <div>

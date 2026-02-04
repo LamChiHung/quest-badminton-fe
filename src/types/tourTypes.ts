@@ -121,3 +121,31 @@ export interface AddPlayerRequest {
     captainId: number
     playerIds: number[]
 }
+
+
+export interface TourRoleResponse {
+    role: string
+}
+
+export interface SearchPlayerPairRequest {
+    "id.equals"?: number,
+    "playerId.in"?: PlayerResponse,
+    "tourId.equals"?: number,
+    "teamId.equals"?: number,
+}
+
+export interface PlayerPairResponse {
+    id: number,
+    player1: PlayerResponse,
+    player2: PlayerResponse,
+    tourId: number,
+    teamId: number,
+    type: string
+}
+
+export interface RegisterPlayerPairRequest {
+    tourId: number
+    player1Id: number
+    player2Id: number | undefined
+    type: string
+}
